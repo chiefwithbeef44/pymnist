@@ -1,7 +1,10 @@
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 from keras.models import Sequential
+import keras
 
-def modelCreator(num_classes):
+
+# noinspection PyPep8Naming
+def createModel(num_classes):
 	model = Sequential()
 	model.add(Conv2D(32, kernel_size=(3, 3),
 					 activation='relu',
@@ -14,12 +17,17 @@ def modelCreator(num_classes):
 	model.add(Dropout(0.5))
 	model.add(Dense(num_classes, activation='softmax'))
 	
+	model.compile(loss=keras.losses.categorical_crossentropy,
+				  optimizer=keras.optimizers.Adadelta(),
+				  metrics=['accuracy'])
+	
 	return model
 
+
+# noinspection PyPep8Naming
 def saveMNISTModel():
 	
-	modelWOweights = modelCreator(10).to_json()
+	modelWOweights = createModel(10).to_json()
 	modelWOweights.save_weights('MNIST_weights.h5')
 	with open("MNIST_model.json", "w") as json_file:
 		json_file.write(modelWOweights)
-	
