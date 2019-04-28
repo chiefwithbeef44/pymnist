@@ -1,6 +1,6 @@
 import keras
 import predictor
-import model.modelCreator as model
+import model.modelCreator as mC
 from keras.datasets import mnist
 from keras import backend as K
 
@@ -40,6 +40,8 @@ if __name__ == "__main__":
 	y_train = keras.utils.to_categorical(y_train, num_classes)
 	y_test = keras.utils.to_categorical(y_test, num_classes)
 	
-	model.createModel(num_classes)
+	model = mC.createModel(10)
+	mC.saveMNISTModel(model)
+	mC.saveWeights(model)
 	
-	predictor.predict_classes(model=model.createModel(num_classes),x_test=x_test, x_train=x_train, x_imgID=x_imgID)
+	#predictor.predict_classes(model=model,x_test=x_test, x_train=x_train, x_imgID=x_imgID)
