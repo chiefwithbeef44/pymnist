@@ -50,9 +50,9 @@ def createModel(num_classes):
 
 # noinspection PyPep8Naming
 def saveMNISTModel(model):
-	model.to_json()
+	json_model = model.to_json()
 	with open("MNIST_model.json", "w") as json_file:
-		json = json_file.write(model)
+		json = json_file.write(json_model)
 	return json
 
 
