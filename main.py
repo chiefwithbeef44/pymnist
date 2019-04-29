@@ -1,6 +1,7 @@
 import keras
 import predictor
 import model.modelCreator as mC
+import model.modelLoader as mL
 from keras.datasets import mnist
 from keras import backend as K
 
@@ -40,8 +41,16 @@ if __name__ == "__main__":
 	y_train = keras.utils.to_categorical(y_train, num_classes)
 	y_test = keras.utils.to_categorical(y_test, num_classes)
 	
-	model = mC.createModel(10)
-	mC.saveMNISTModel(model)
-	mC.saveWeights(model)
+	haveModel = input("Do you have an existing model? (y/n)")
 	
-	#predictor.predict_classes(model=model,x_test=x_test, x_train=x_train, x_imgID=x_imgID)
+	if haveModel == "n":
+		model = mC.createModel(num_classes)
+		print("Model created, now saving it.")
+		mC.saveWeights(model)
+		print("Model saved!")
+		mC.saveMNISTModel(model)
+		print("Model weights saved!")
+	else:
+		model = mL.loadFromJSON("MNIST_model.json", "MNIST_weights.h5")
+	
+	predictor.predict_classes(model=model,x_test=x_test, x_train=x_train, x_imgID=x_imgID)
