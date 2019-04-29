@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import time
 
 def predict_classes(model, x_train, x_test, x_imgID):
 	for i in range(len(x_train)):
