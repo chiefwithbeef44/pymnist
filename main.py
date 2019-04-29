@@ -41,7 +41,7 @@ if __name__ == "__main__":
 	y_train = keras.utils.to_categorical(y_train, num_classes)
 	y_test = keras.utils.to_categorical(y_test, num_classes)
 	
-	haveModel = input("Do you have an existing model? (y/n)")
+	haveModel = str(input("Do you have an existing model? (y/n)"))
 	
 	if haveModel == "n":
 		model = mC.createModel(num_classes)
@@ -52,5 +52,6 @@ if __name__ == "__main__":
 		print("Model weights saved!")
 	else:
 		model = mL.loadFromJSON("MNIST_model.json", "MNIST_weights.h5")
-	
-	predictor.predict_classes(model=model,x_test=x_test, x_train=x_train, x_imgID=x_imgID)
+		model.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adadelta(), metrics=['accuracy'])
+		
+	predictor.predict_classes(model=model, x_test=x_test, x_train=x_train, x_imgID=x_imgID)
